@@ -18,7 +18,7 @@ public class DBUtil {
 			drivatename="com.mysql.jdbc.Driver";
 			url="jdbc:mysql://localhost:3306/weekday";
 			username="root";
-			password="root";
+			password="weekday";
 //			Properties config = new Properties();
 //			config.load(new FileReader(new File("JDBC.conf")));
 //			drivatename = config.getProperty("drivername");
