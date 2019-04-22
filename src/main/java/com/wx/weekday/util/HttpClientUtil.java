@@ -6,7 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -15,17 +18,17 @@ import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
 public class HttpClientUtil {
 
-	public static String doGet(String url, Map<String, String> param) {
+	public static String doGet(String url, Map<String, String> param, String cookie) {
 
 		// 创建Httpclient对象
 		CloseableHttpClient httpclient = HttpClients.createDefault();
-
 		String resultString = "";
 		CloseableHttpResponse response = null;
 		try {
@@ -40,6 +43,8 @@ public class HttpClientUtil {
 
 			// 创建http GET请求
 			HttpGet httpGet = new HttpGet(uri);
+
+			httpGet.setHeader("Cookie",cookie);
 
 			// 执行请求
 			response = httpclient.execute(httpGet);
@@ -62,11 +67,14 @@ public class HttpClientUtil {
 		return resultString;
 	}
 
+	public static String doGet(String url, Map<String, String> param) {
+		return doGet(url, param, null);
+	}
 	public static String doGet(String url) {
-		return doGet(url, null);
+		return doGet(url, null, null);
 	}
 
-	public static String doPost(String url, Map<String, String> param) {
+	public static String doPost(String url, Map<String, String> param, String cookie) {
 		// 创建Httpclient对象
 		CloseableHttpClient httpClient = HttpClients.createDefault();
 		CloseableHttpResponse response = null;
@@ -74,6 +82,7 @@ public class HttpClientUtil {
 		try {
 			// 创建Http Post请求
 			HttpPost httpPost = new HttpPost(url);
+			httpPost.setHeader("Cookie",cookie);
 			// 创建参数列表
 			if (param != null) {
 				List<NameValuePair> paramList = new ArrayList<>();
@@ -99,9 +108,12 @@ public class HttpClientUtil {
 
 		return resultString;
 	}
-	
-	public static String doPost(String url) {
-		return doPost(url, null);
+
+	public static String dePost(String url, Map<String, String> param) {
+		return doGet(url, param, null);
+	}
+	public static String dePost(String url) {
+		return doGet(url, null, null);
 	}
 	
 	public static String doPostJson(String url, String json) {
