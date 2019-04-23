@@ -70,6 +70,7 @@ public class HttpClientUtil {
 	public static String doGet(String url, Map<String, String> param) {
 		return doGet(url, param, null);
 	}
+	public static String doGet(String url, String cookie){return doGet(url,null,cookie);}
 	public static String doGet(String url) {
 		return doGet(url, null, null);
 	}

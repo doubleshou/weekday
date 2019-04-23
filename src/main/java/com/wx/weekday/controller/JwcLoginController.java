@@ -1,5 +1,6 @@
 package com.wx.weekday.controller;
 
+import com.wx.weekday.util.CodeUtil;
 import com.wx.weekday.util.HttpClientUtil;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -24,39 +25,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/jwcLogin")
 public class JwcLoginController {
-
-    @PostMapping("/encodeByBase64")
-    public String encodeByBase64(@RequestParam("text") String text){
-        try {
-            Base64.Encoder encoder = Base64.getEncoder();
-            byte[] textByte = text.getBytes("UTF-8");
-            String encodedText = encoder.encodeToString(textByte);
-            return encodedText;
-        } catch (UnsupportedEncodingException e) {
-            return ("Error :" + e.getMessage());
-        }
-    }
-
-    @PostMapping("/decodeByBase64")
-    public String decodeByBase64(@RequestParam("text") String text){
-        try {
-            Base64.Decoder decoder = Base64.getDecoder();
-            String decodedText=new String(decoder.decode(text), "UTF-8");
-            return decodedText;
-        }catch (UnsupportedEncodingException e){
-            return ("Error :" + e.getMessage());
-        }
-    }
-
-    @PostMapping("/encodeByMd5")
-    public String encodeByMd5(@RequestParam("text") String text){
-        try {
-            String encodedText= DigestUtils.md5DigestAsHex(text.getBytes());
-            return encodedText;
-        }catch (UnknownError e){
-            return ("Error :" + e.getMessage());
-        }
-    }
 
     //获取Cookie
     @PostMapping("/cookie")
@@ -103,8 +71,8 @@ public class JwcLoginController {
         String url="http://222.195.158.225:80/cas/logon.action";
         String _sessionid=cookie.substring(11);
         Map<String, String> param = new HashMap<>();
-        param.put("_u"+randnumber,encodeByBase64(username+";;"+_sessionid));
-        param.put("_p"+randnumber,encodeByMd5(encodeByMd5(password)+encodeByMd5(randnumber.toLowerCase())));
+        param.put("_u"+randnumber, CodeUtil.encodeByBase64(username+";;"+_sessionid));
+        param.put("_p"+randnumber,CodeUtil.encodeByMd5(CodeUtil.encodeByMd5(password)+CodeUtil.encodeByMd5(randnumber.toLowerCase())));
         param.put("randnumber",randnumber);
         param.put("isPasswordPolicy","1");
         System.out.println(param);
