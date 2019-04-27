@@ -14,10 +14,8 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
-import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
 
-import java.awt.*;
 import java.io.*;
 import java.util.*;
 import java.util.List;
@@ -96,7 +94,7 @@ public class JwcLoginController {
             if (response.getStatusLine().getStatusCode() != HttpStatus.SC_OK) {
                 System.err.println("Method failed: " + response.getStatusLine());
             }
-            // save img
+            // 保存图片
             String picName = "src\\main\\resources\\captcha";
             File f = new File(picName);
             f.mkdirs();
