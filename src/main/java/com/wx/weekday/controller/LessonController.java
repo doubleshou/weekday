@@ -7,12 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 @RestController
@@ -55,7 +51,9 @@ public class LessonController {
                     //获取第i行第j列的文本
                     String text=tds.get(j).text();
                     if (checkLesson(text)){
-                        System.out.println(text);
+                        System.out.println(i);//行数
+                        System.out.println(j-(i%2));//课程在星期几
+                        System.out.println(text);//课程信息字符串，需要分割处理
                     }
                 }
             }
